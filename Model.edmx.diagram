@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="22a216181ab34ed88f9d233c9ca2b2bc" Name="Diagram1">
+        <EntityTypeShape EntityType="FaculdadeModel.Aluno" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FaculdadeModel.Curso" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FaculdadeModel.Matriculas_abertas" Width="1.5" PointX="5.25" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FaculdadeModel.Professor" Width="1.5" PointX="3" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FaculdadeModel.Telefone" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <AssociationConnector Association="FaculdadeModel.FK_Aluno_Curso" ManuallyRouted="false" />
+        <AssociationConnector Association="FaculdadeModel.FK_Aluno_Telefone" ManuallyRouted="false" />
+        <AssociationConnector Association="FaculdadeModel.FK_Faculdade_Curso" ManuallyRouted="false" />
+        <AssociationConnector Association="FaculdadeModel.FK_Professor_Curso" ManuallyRouted="false" />
+        <AssociationConnector Association="FaculdadeModel.FK_Faculdade_Professor" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

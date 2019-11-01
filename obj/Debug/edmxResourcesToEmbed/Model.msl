@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="FaculdadeModelStoreContainer" CdmEntityContainer="FaculdadeEntities3">
+    <EntitySetMapping Name="Aluno">
+      <EntityTypeMapping TypeName="FaculdadeModel.Aluno">
+        <MappingFragment StoreEntitySet="Aluno">
+          <ScalarProperty Name="RA" ColumnName="RA" />
+          <ScalarProperty Name="Curso" ColumnName="Curso" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="CodigoTelefone" ColumnName="CodigoTelefone" />
+          <ScalarProperty Name="Endereco" ColumnName="Endereco" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Curso">
+      <EntityTypeMapping TypeName="FaculdadeModel.Curso">
+        <MappingFragment StoreEntitySet="Curso">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Matriculas_abertas">
+      <EntityTypeMapping TypeName="FaculdadeModel.Matriculas_abertas">
+        <MappingFragment StoreEntitySet="Matriculas_abertas">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Curso" ColumnName="Curso" />
+          <ScalarProperty Name="Professor" ColumnName="Professor" />
+          <ScalarProperty Name="Horario" ColumnName="Horario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Professor">
+      <EntityTypeMapping TypeName="FaculdadeModel.Professor">
+        <MappingFragment StoreEntitySet="Professor">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nome" ColumnName="Nome" />
+          <ScalarProperty Name="Salario" ColumnName="Salario" />
+          <ScalarProperty Name="Curso" ColumnName="Curso" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Telefone">
+      <EntityTypeMapping TypeName="FaculdadeModel.Telefone">
+        <MappingFragment StoreEntitySet="Telefone">
+          <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+          <ScalarProperty Name="Telefone1" ColumnName="Telefone" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

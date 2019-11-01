@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FaculdadeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Aluno">
+    <Key>
+      <PropertyRef Name="RA" />
+      <PropertyRef Name="Curso" />
+    </Key>
+    <Property Name="RA" Type="int" Nullable="false" />
+    <Property Name="Curso" Type="int" Nullable="false" />
+    <Property Name="Nome" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="CodigoTelefone" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Endereco" Type="varchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Curso">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="varchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Matriculas_abertas">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Curso" Type="int" Nullable="false" />
+    <Property Name="Professor" Type="int" Nullable="false" />
+    <Property Name="Horario" Type="time" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Professor">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nome" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Salario" Type="float" Nullable="false" />
+    <Property Name="Curso" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Telefone">
+    <Key>
+      <PropertyRef Name="Codigo" />
+    </Key>
+    <Property Name="Codigo" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Telefone" Type="varchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Aluno_Curso">
+    <End Role="Curso" Type="Self.Curso" Multiplicity="1" />
+    <End Role="Aluno" Type="Self.Aluno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Curso">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Aluno">
+        <PropertyRef Name="Curso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Aluno_Telefone">
+    <End Role="Telefone" Type="Self.Telefone" Multiplicity="1" />
+    <End Role="Aluno" Type="Self.Aluno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Telefone">
+        <PropertyRef Name="Codigo" />
+      </Principal>
+      <Dependent Role="Aluno">
+        <PropertyRef Name="CodigoTelefone" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Faculdade_Curso">
+    <End Role="Curso" Type="Self.Curso" Multiplicity="1" />
+    <End Role="Matriculas_abertas" Type="Self.Matriculas_abertas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Curso">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Matriculas_abertas">
+        <PropertyRef Name="Curso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Faculdade_Professor">
+    <End Role="Professor" Type="Self.Professor" Multiplicity="1" />
+    <End Role="Matriculas_abertas" Type="Self.Matriculas_abertas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Professor">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Matriculas_abertas">
+        <PropertyRef Name="Professor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Professor_Curso">
+    <End Role="Curso" Type="Self.Curso" Multiplicity="1" />
+    <End Role="Professor" Type="Self.Professor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Curso">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Professor">
+        <PropertyRef Name="Curso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="FaculdadeModelStoreContainer">
+    <EntitySet Name="Aluno" EntityType="Self.Aluno" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Curso" EntityType="Self.Curso" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Matriculas_abertas" EntityType="Self.Matriculas_abertas" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Professor" EntityType="Self.Professor" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Telefone" EntityType="Self.Telefone" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Aluno_Curso" Association="Self.FK_Aluno_Curso">
+      <End Role="Curso" EntitySet="Curso" />
+      <End Role="Aluno" EntitySet="Aluno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Aluno_Telefone" Association="Self.FK_Aluno_Telefone">
+      <End Role="Telefone" EntitySet="Telefone" />
+      <End Role="Aluno" EntitySet="Aluno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Faculdade_Curso" Association="Self.FK_Faculdade_Curso">
+      <End Role="Curso" EntitySet="Curso" />
+      <End Role="Matriculas_abertas" EntitySet="Matriculas_abertas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Faculdade_Professor" Association="Self.FK_Faculdade_Professor">
+      <End Role="Professor" EntitySet="Professor" />
+      <End Role="Matriculas_abertas" EntitySet="Matriculas_abertas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Professor_Curso" Association="Self.FK_Professor_Curso">
+      <End Role="Curso" EntitySet="Curso" />
+      <End Role="Professor" EntitySet="Professor" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

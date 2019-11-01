@@ -1,0 +1,359 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="FaculdadeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Aluno">
+          <Key>
+            <PropertyRef Name="RA" />
+            <PropertyRef Name="Curso" />
+          </Key>
+          <Property Name="RA" Type="int" Nullable="false" />
+          <Property Name="Curso" Type="int" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="CodigoTelefone" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Endereco" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Curso">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Matriculas_abertas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Curso" Type="int" Nullable="false" />
+          <Property Name="Professor" Type="int" Nullable="false" />
+          <Property Name="Horario" Type="time" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Professor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Salario" Type="float" Nullable="false" />
+          <Property Name="Curso" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Telefone">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Telefone" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Aluno_Curso">
+          <End Role="Curso" Type="Self.Curso" Multiplicity="1" />
+          <End Role="Aluno" Type="Self.Aluno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curso">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Aluno">
+              <PropertyRef Name="Curso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Aluno_Telefone">
+          <End Role="Telefone" Type="Self.Telefone" Multiplicity="1" />
+          <End Role="Aluno" Type="Self.Aluno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Telefone">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Aluno">
+              <PropertyRef Name="CodigoTelefone" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Faculdade_Curso">
+          <End Role="Curso" Type="Self.Curso" Multiplicity="1" />
+          <End Role="Matriculas_abertas" Type="Self.Matriculas_abertas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curso">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Matriculas_abertas">
+              <PropertyRef Name="Curso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Faculdade_Professor">
+          <End Role="Professor" Type="Self.Professor" Multiplicity="1" />
+          <End Role="Matriculas_abertas" Type="Self.Matriculas_abertas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Professor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Matriculas_abertas">
+              <PropertyRef Name="Professor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Professor_Curso">
+          <End Role="Curso" Type="Self.Curso" Multiplicity="1" />
+          <End Role="Professor" Type="Self.Professor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curso">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Professor">
+              <PropertyRef Name="Curso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FaculdadeModelStoreContainer">
+          <EntitySet Name="Aluno" EntityType="Self.Aluno" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Curso" EntityType="Self.Curso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Matriculas_abertas" EntityType="Self.Matriculas_abertas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Professor" EntityType="Self.Professor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Telefone" EntityType="Self.Telefone" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Aluno_Curso" Association="Self.FK_Aluno_Curso">
+            <End Role="Curso" EntitySet="Curso" />
+            <End Role="Aluno" EntitySet="Aluno" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Aluno_Telefone" Association="Self.FK_Aluno_Telefone">
+            <End Role="Telefone" EntitySet="Telefone" />
+            <End Role="Aluno" EntitySet="Aluno" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Faculdade_Curso" Association="Self.FK_Faculdade_Curso">
+            <End Role="Curso" EntitySet="Curso" />
+            <End Role="Matriculas_abertas" EntitySet="Matriculas_abertas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Faculdade_Professor" Association="Self.FK_Faculdade_Professor">
+            <End Role="Professor" EntitySet="Professor" />
+            <End Role="Matriculas_abertas" EntitySet="Matriculas_abertas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Professor_Curso" Association="Self.FK_Professor_Curso">
+            <End Role="Curso" EntitySet="Curso" />
+            <End Role="Professor" EntitySet="Professor" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FaculdadeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Aluno">
+          <Key>
+            <PropertyRef Name="RA" />
+            <PropertyRef Name="Curso" />
+          </Key>
+          <Property Name="RA" Type="Int32" Nullable="false" />
+          <Property Name="Curso" Type="Int32" Nullable="false" />
+          <Property Name="Nome" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CodigoTelefone" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Endereco" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Curso1" Relationship="Self.FK_Aluno_Curso" FromRole="Aluno" ToRole="Curso" />
+          <NavigationProperty Name="Telefone" Relationship="Self.FK_Aluno_Telefone" FromRole="Aluno" ToRole="Telefone" />
+        </EntityType>
+        <EntityType Name="Curso">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Aluno" Relationship="Self.FK_Aluno_Curso" FromRole="Curso" ToRole="Aluno" />
+          <NavigationProperty Name="Matriculas_abertas" Relationship="Self.FK_Faculdade_Curso" FromRole="Curso" ToRole="Matriculas_abertas" />
+          <NavigationProperty Name="Professor" Relationship="Self.FK_Professor_Curso" FromRole="Curso" ToRole="Professor" />
+        </EntityType>
+        <EntityType Name="Matriculas_abertas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Curso" Type="Int32" Nullable="false" />
+          <Property Name="Professor" Type="Int32" Nullable="false" />
+          <Property Name="Horario" Type="Time" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Curso1" Relationship="Self.FK_Faculdade_Curso" FromRole="Matriculas_abertas" ToRole="Curso" />
+          <NavigationProperty Name="Professor1" Relationship="Self.FK_Faculdade_Professor" FromRole="Matriculas_abertas" ToRole="Professor" />
+        </EntityType>
+        <EntityType Name="Professor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Salario" Type="Double" Nullable="false" />
+          <Property Name="Curso" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Curso1" Relationship="Self.FK_Professor_Curso" FromRole="Professor" ToRole="Curso" />
+          <NavigationProperty Name="Matriculas_abertas" Relationship="Self.FK_Faculdade_Professor" FromRole="Professor" ToRole="Matriculas_abertas" />
+        </EntityType>
+        <EntityType Name="Telefone">
+          <Key>
+            <PropertyRef Name="Codigo" />
+          </Key>
+          <Property Name="Codigo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefone1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Aluno" Relationship="Self.FK_Aluno_Telefone" FromRole="Telefone" ToRole="Aluno" />
+        </EntityType>
+        <Association Name="FK_Aluno_Curso">
+          <End Role="Curso" Type="Self.Curso" Multiplicity="1" />
+          <End Role="Aluno" Type="Self.Aluno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curso">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Aluno">
+              <PropertyRef Name="Curso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Aluno_Telefone">
+          <End Role="Telefone" Type="Self.Telefone" Multiplicity="1" />
+          <End Role="Aluno" Type="Self.Aluno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Telefone">
+              <PropertyRef Name="Codigo" />
+            </Principal>
+            <Dependent Role="Aluno">
+              <PropertyRef Name="CodigoTelefone" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Faculdade_Curso">
+          <End Role="Curso" Type="Self.Curso" Multiplicity="1" />
+          <End Role="Matriculas_abertas" Type="Self.Matriculas_abertas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curso">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Matriculas_abertas">
+              <PropertyRef Name="Curso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Professor_Curso">
+          <End Role="Curso" Type="Self.Curso" Multiplicity="1" />
+          <End Role="Professor" Type="Self.Professor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curso">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Professor">
+              <PropertyRef Name="Curso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Faculdade_Professor">
+          <End Role="Professor" Type="Self.Professor" Multiplicity="1" />
+          <End Role="Matriculas_abertas" Type="Self.Matriculas_abertas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Professor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Matriculas_abertas">
+              <PropertyRef Name="Professor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FaculdadeEntities3" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Aluno" EntityType="Self.Aluno" />
+          <EntitySet Name="Curso" EntityType="Self.Curso" />
+          <EntitySet Name="Matriculas_abertas" EntityType="Self.Matriculas_abertas" />
+          <EntitySet Name="Professor" EntityType="Self.Professor" />
+          <EntitySet Name="Telefone" EntityType="Self.Telefone" />
+          <AssociationSet Name="FK_Aluno_Curso" Association="Self.FK_Aluno_Curso">
+            <End Role="Curso" EntitySet="Curso" />
+            <End Role="Aluno" EntitySet="Aluno" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Aluno_Telefone" Association="Self.FK_Aluno_Telefone">
+            <End Role="Telefone" EntitySet="Telefone" />
+            <End Role="Aluno" EntitySet="Aluno" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Faculdade_Curso" Association="Self.FK_Faculdade_Curso">
+            <End Role="Curso" EntitySet="Curso" />
+            <End Role="Matriculas_abertas" EntitySet="Matriculas_abertas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Professor_Curso" Association="Self.FK_Professor_Curso">
+            <End Role="Curso" EntitySet="Curso" />
+            <End Role="Professor" EntitySet="Professor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Faculdade_Professor" Association="Self.FK_Faculdade_Professor">
+            <End Role="Professor" EntitySet="Professor" />
+            <End Role="Matriculas_abertas" EntitySet="Matriculas_abertas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FaculdadeModelStoreContainer" CdmEntityContainer="FaculdadeEntities3">
+          <EntitySetMapping Name="Aluno">
+            <EntityTypeMapping TypeName="FaculdadeModel.Aluno">
+              <MappingFragment StoreEntitySet="Aluno">
+                <ScalarProperty Name="RA" ColumnName="RA" />
+                <ScalarProperty Name="Curso" ColumnName="Curso" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="CodigoTelefone" ColumnName="CodigoTelefone" />
+                <ScalarProperty Name="Endereco" ColumnName="Endereco" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Curso">
+            <EntityTypeMapping TypeName="FaculdadeModel.Curso">
+              <MappingFragment StoreEntitySet="Curso">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Matriculas_abertas">
+            <EntityTypeMapping TypeName="FaculdadeModel.Matriculas_abertas">
+              <MappingFragment StoreEntitySet="Matriculas_abertas">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Curso" ColumnName="Curso" />
+                <ScalarProperty Name="Professor" ColumnName="Professor" />
+                <ScalarProperty Name="Horario" ColumnName="Horario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Professor">
+            <EntityTypeMapping TypeName="FaculdadeModel.Professor">
+              <MappingFragment StoreEntitySet="Professor">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Salario" ColumnName="Salario" />
+                <ScalarProperty Name="Curso" ColumnName="Curso" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Telefone">
+            <EntityTypeMapping TypeName="FaculdadeModel.Telefone">
+              <MappingFragment StoreEntitySet="Telefone">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="Telefone1" ColumnName="Telefone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
